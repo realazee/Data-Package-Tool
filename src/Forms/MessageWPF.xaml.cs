@@ -102,6 +102,10 @@ namespace Data_Package_Tool
                     metadata += $"DMs with {this.Recipient.Id}";
                 }
             }
+            else if(channel.FallbackName != null)
+            {
+                metadata += $"{channel.FallbackName} ({channel.Id})";
+            }
             else
             {
                 metadata += $"unknown ({channel.Id}, {(channel.IsGroupDM() ? "Group DM" : channel.IsDM() ? "DM" : "Text Channel")})";

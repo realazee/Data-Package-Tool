@@ -25,6 +25,7 @@ namespace Data_Package_Tool.Classes.Parsing
         public List<DMessage> Messages { get; } = new List<DMessage>();
         public string DMRecipientId { get; set; }
         public bool HasDuplicates { get; set; }
+        public string FallbackName { get; set; }
 
         // Fix for https://github.com/aamiaa/Data-Package-Tool/issues/19
         [OnDeserialized]

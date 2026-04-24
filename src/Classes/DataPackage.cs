@@ -235,12 +235,13 @@ namespace Data_Package_Tool.Classes
                             channel = Newtonsoft.Json.JsonConvert.DeserializeObject<DChannel>(json);
                         }
 
-                        if(channel.IsDM())
+                        var hasNameInMap = channelNamesMap.TryGetValue(channelId, out var channelName);
+                        if (channel.IsDM())
                         {
                             var recipientId = channel.GetOtherDMRecipient(this.User);
                             channel.DMRecipientId = recipientId;
 
-                            if (!this.UsersMap.ContainsKey(recipientId) && recipientId != Consts.DeletedUserId && channelNamesMap.TryGetValue(channelId, out var channelName))
+                            if (!this.UsersMap.ContainsKey(recipientId) && recipientId != Consts.DeletedUserId && hasNameInMap)
                             {
                                 var nameMatch = nameRegex.Match(channelName);
                                 if (nameMatch.Success)
@@ -253,6 +254,12 @@ namespace Data_Package_Tool.Classes
                                     });
                                 }
                             }
+                        }
+
+                        // This will be "Unknown channel in <server name>"
+                        if(channel.Name == null && hasNameInMap)
+                        {
+                            channel.FallbackName = channelName;
                         }
 
                         using (var rMessages = new StreamReader(entry.Open()))
