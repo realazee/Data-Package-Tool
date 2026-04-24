@@ -184,7 +184,12 @@ namespace Data_Package_Tool.Classes
 
                 foreach(var relationship in this.User.Relationships)
                 {
-                    this.UsersMap.Add(relationship.User.Id, relationship.User);
+                    // Since you can technically send a friend request the deleted user account under
+                    // specific circumstances, this check is needed or else it will resolve the user
+                    // from relationships, and break related functionality.
+                    if (relationship.User.Id != Consts.DeletedUserId) {
+                        this.UsersMap.Add(relationship.User.Id, relationship.User);
+                    }
                 }
 
                 if (User.AvatarHash == null)
