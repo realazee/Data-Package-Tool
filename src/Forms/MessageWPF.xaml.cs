@@ -605,5 +605,10 @@ namespace Data_Package_Tool
                 return;
             }
         }
+
+        private void copyMessageIdMi_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(this.Message.Id);
+        }
     }
 }
