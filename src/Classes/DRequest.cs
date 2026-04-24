@@ -125,16 +125,10 @@ namespace Data_Package_Tool.Classes
 
             var res = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://discord.com/app"));
             var content = await res.Content.ReadAsStringAsync();
-            foreach (Match match in Regex.Matches(content, @"<script (?:defer )?src=""(\/assets\/.+?\.js)", RegexOptions.None))
+            var buildNumber = Regex.Match(content, @"""BUILD_NUMBER"":""(\d+)""").Groups[1].Value;
+            if(buildNumber != "")
             {
-                var scriptPath = match.Groups[1].Value;
-                var scriptRes = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, $"https://discord.com{scriptPath}"));
-                var scriptContent = await scriptRes.Content.ReadAsStringAsync();
-                if(scriptContent.Contains("build_number"))
-                {
-                    var buildNumber = Regex.Match(scriptContent, "build_number:\"(\\d+)\"").Groups[1].Value;
-                    if(buildNumber != "") return Int32.Parse(buildNumber);
-                }
+                return Int32.Parse(buildNumber);
             }
 
             throw new Exception("Failed to get client build number");
