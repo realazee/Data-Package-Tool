@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace Data_Package_Tool.Classes
         public static string USER_AGENT;
         public static string CLIENT_LAUNCH_ID = Guid.NewGuid().ToString();
         public static string CLIENT_HEARTBEAT_SESSION_ID = Guid.NewGuid().ToString();
-        public static string LAUNCH_SIGNATURE = Guid.NewGuid().ToString();
+        public static string LAUNCH_SIGNATURE = GetCleanLaunchSignature();
 
         public static int ClientBuildNumber;
 
@@ -205,6 +206,29 @@ namespace Data_Package_Tool.Classes
             }
 
             return String.Join(", ", shuffled.Select(x => $"\"{x[0]}\";v=\"{x[1]}\""));
+        }
+
+        public static string GetCleanLaunchSignature()
+        {
+            var detectionBits = BigInteger.Parse("664939786591977264366699312723265536");
+            var bits128 = BigInteger.Parse("340282366920938463463374607431768211455"); // 2^128 - 1
+
+            var uuid = Guid.NewGuid();
+            // Guid.ToByteArray() returns the bytes in LE in 4 separate parts,
+            // making it completely useless for int conversion, hence the BigInteger.Parse() instead.
+            var uuidBigInt = BigInteger.Parse($"0{uuid:N}", System.Globalization.NumberStyles.HexNumber);
+
+            var signature = uuidBigInt & (~detectionBits & bits128);
+            var signatureStr = signature.ToString("X32"); // Ensure the hex length is 32
+            // ... except it can still be 33 in case of ones whose hex would evaluate to a
+            // negative BigInteger without the leading 0
+            // (ex. b400670a-0068-47b8-9f32-e1364a6105b8 -> -101019237799056738097059700513288682056)
+            if (signatureStr.Length > 32)
+            {
+                signatureStr = signatureStr.Substring(signatureStr.Length - 32);
+            }
+            var signatureUUID = Guid.ParseExact(signatureStr, "N");
+            return signatureUUID.ToString();
         }
     }
     class DRequest
