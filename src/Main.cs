@@ -577,9 +577,9 @@ namespace Data_Package_Tool
         {
             IEnumerable<DAttachment> imgs = DataPackage.ImageAttachments;
             if (imagesAfterCb.Checked)
-                imgs = imgs.Where(a => a.Message.Timestamp > imagesAfterDtp.Value.Date);
+                imgs = imgs.Where(a => a.Message.Timestamp > imagesAfterDtp.Value);
             if (imagesBeforeCb.Checked)
-                imgs = imgs.Where(a => a.Message.Timestamp < imagesBeforeDtp.Value.Date.AddDays(1));
+                imgs = imgs.Where(a => a.Message.Timestamp < imagesBeforeDtp.Value);
             return imgs.ToList();
         }
 

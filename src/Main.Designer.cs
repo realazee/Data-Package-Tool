@@ -351,19 +351,21 @@ namespace Data_Package_Tool
             // 
             // imagesAfterDtp
             // 
+            imagesAfterDtp.CustomFormat = "MM/dd/yyyy HH:mm:ss";
             imagesAfterDtp.Enabled = false;
-            imagesAfterDtp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            imagesAfterDtp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             imagesAfterDtp.Location = new System.Drawing.Point(255, 7);
             imagesAfterDtp.Name = "imagesAfterDtp";
-            imagesAfterDtp.Size = new System.Drawing.Size(100, 23);
+            imagesAfterDtp.Size = new System.Drawing.Size(200, 23);
             imagesAfterDtp.TabIndex = 5;
+            imagesAfterDtp.Value = new System.DateTime(2023, 1, 1, 0, 0, 0, 0);
             imagesAfterDtp.ValueChanged += imagesDateFilter_ValueChanged;
             // 
             // imagesBeforeCb
             // 
             imagesBeforeCb.AutoSize = true;
             imagesBeforeCb.ForeColor = System.Drawing.SystemColors.Control;
-            imagesBeforeCb.Location = new System.Drawing.Point(365, 10);
+            imagesBeforeCb.Location = new System.Drawing.Point(465, 10);
             imagesBeforeCb.Name = "imagesBeforeCb";
             imagesBeforeCb.Size = new System.Drawing.Size(58, 19);
             imagesBeforeCb.TabIndex = 6;
@@ -373,11 +375,12 @@ namespace Data_Package_Tool
             // 
             // imagesBeforeDtp
             // 
+            imagesBeforeDtp.CustomFormat = "MM/dd/yyyy HH:mm:ss";
             imagesBeforeDtp.Enabled = false;
-            imagesBeforeDtp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            imagesBeforeDtp.Location = new System.Drawing.Point(425, 7);
+            imagesBeforeDtp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            imagesBeforeDtp.Location = new System.Drawing.Point(525, 7);
             imagesBeforeDtp.Name = "imagesBeforeDtp";
-            imagesBeforeDtp.Size = new System.Drawing.Size(100, 23);
+            imagesBeforeDtp.Size = new System.Drawing.Size(200, 23);
             imagesBeforeDtp.TabIndex = 7;
             imagesBeforeDtp.ValueChanged += imagesDateFilter_ValueChanged;
             // 
